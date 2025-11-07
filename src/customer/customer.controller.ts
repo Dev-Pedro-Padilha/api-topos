@@ -1,14 +1,12 @@
-import { Controller, Get, Post, Body, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Body } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { CustomerService } from "./customer.service";
 import { CreateCustomerDto } from "./dto/create-customer.dto";
 import { Customer } from "./entities/customer.entity";
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Clientes')
 @ApiBearerAuth('JWT-auth')
 @Controller('customer')
-@UseGuards(JwtAuthGuard)
 export class CustomerController {
     constructor(private readonly customerService: CustomerService) {}
 

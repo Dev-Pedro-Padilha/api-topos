@@ -5,6 +5,7 @@ import { UsersService } from '../users/users.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { Public } from './decorators/public.decorator';
 
 /**
  * Controller de Autenticação
@@ -29,6 +30,7 @@ export class AuthController {
      * @param createUserDto - Dados do usuário (username, password)
      * @returns Dados do usuário criado (sem a senha)
      */
+    @Public()
     @Post('register')
     @ApiOperation({ summary: 'Registrar novo usuário' })
     @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
@@ -46,6 +48,7 @@ export class AuthController {
      * @param loginDto - Credenciais de login (username, password)
      * @returns Object com access_token e dados do usuário
      */
+    @Public()
     @UseGuards(LocalAuthGuard)
     @Post('login')
     @ApiOperation({ summary: 'Fazer login e obter token JWT' })
@@ -64,7 +67,7 @@ export class AuthController {
         }
     })
     @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
-    async login(@Request() req, @Body() loginDto: LoginDto) {
-        return this.authService.login(req.user);
+    async login(@Body() auth: LoginDto) {
+        return this.authService.login(auth);
     }
 }
